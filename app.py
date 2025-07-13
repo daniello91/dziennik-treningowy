@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="🏃♂️ Dziennik Treningowy", layout="centered")
 
