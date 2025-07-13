@@ -96,14 +96,12 @@ if 0 <= day_index < len(plan):
         submitted = st.form_submit_button("Zapisz dane")
 
     if submitted:
-        # Załaduj lub stwórz plik CSV
         try:
             df = pd.read_csv("dziennik.csv")
         except FileNotFoundError:
-            df = pd.DataFrame(columns=["Data", "Wykonano", "Samopoczucie", "Sen", "Notatki"])
+            df = pd.DataFrame()
 
-        # Aktualizuj lub dodaj wpis dla wybranej daty
-        df = df[df["Data"] != selected_date.strftime("%Y-%m-%d")]
+        # Dane podstawowe
         new_row = {
             "Data": selected_date.strftime("%Y-%m-%d"),
             "Wykonano": wykonane,
@@ -111,11 +109,18 @@ if 0 <= day_index < len(plan):
             "Sen": sen,
             "Notatki": notatki,
         }
+
+        # Jeśli poniedziałek – dodaj pomiary
+        if selected_date.weekday() == 0:
+            new_row.update(pomiary)
+
+        # Usuń istniejący wpis tego dnia, jeśli istnieje
+        df = df[df["Data"] != selected_date.strftime("%Y-%m-%d")]
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
-        # Zapisz do pliku
         df.to_csv("dziennik.csv", index=False)
         st.success("✅ Dane zapisane!")
+
 
     # --- PODGLĄD DANYCH ---
     st.markdown("---")
