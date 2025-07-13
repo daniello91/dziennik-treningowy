@@ -148,6 +148,34 @@ try:
 except FileNotFoundError:
     st.write("Brak zapisanych danych jeszcze.")
 
+# --- WYKRESY POSTĘPÓW ---
+import matplotlib.pyplot as plt
+
+if "klatka" in df_display.columns:
+    df_pomiary = df_display[df_display["klatka"] != "–"].copy()
+
+    if not df_pomiary.empty:
+        st.markdown("### 📈 Wykresy postępów (pomiarów ciała)")
+
+        # Konwersja danych
+        df_pomiary["Data"] = pd.to_datetime(df_pomiary["Data"])
+        pomiary_kolumny = ["klatka", "brzuch_nad", "brzuch_pod", "biceps_p", "biceps_l", "udo_p", "udo_l", "lydka_p", "lydka_l"]
+
+        # Konwersja na liczby
+        for kol in pomiary_kolumny:
+            df_pomiary[kol] = pd.to_numeric(df_pomiary[kol], errors="coerce")
+
+        # Wybór pomiaru do wyświetlenia
+        wybor_pomiaru = st.selectbox("📊 Wybierz pomiar do wyświetlenia na wykresie:", pomiary_kolumny)
+
+        fig, ax = plt.subplots()
+        ax.plot(df_pomiary["Data"], df_pomiary[wybor_pomiaru], marker="o", linestyle="-")
+        ax.set_xlabel("Data")
+        ax.set_ylabel("Wartość (cm)")
+        ax.set_title(f"Zmiana pomiaru: {wybor_pomiaru}")
+        ax.grid(True)
+        st.pyplot(fig)
+
 
 else:
     st.warning("🕒 Dziś nie ma zaplanowanego treningu w ramach planu (poza zakresem 8 tygodni).")
