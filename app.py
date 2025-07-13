@@ -38,7 +38,7 @@ plan = [
     {"day": "Czw", "desc": "🧘‍♂️ Wolne", "time": "–", "hr": "–"},
     {"day": "Pt", "desc": "🏃‍♀️ Bieg ciągły 25 min + 5 przebieżek (60 m)", "time": "~30 min", "hr": "Przebieżki: bez przekraczania 150 bpm"},
     {"day": "Sob", "desc": "🧘‍♂️ Spacer, joga", "time": "45 min", "hr": "–"},
-    {"day": "Nd", "desc": "🏃‍♂️ Długi spokojny bieg lub trucht z marszem", "time": "45–60 min", "hr": "≤135 bpm"},,
+    {"day": "Nd", "desc": "🏃‍♂️ Długi spokojny bieg lub trucht z marszem", "time": "45–60 min", "hr": "≤135 bpm"},
 ]
 
 # Start planu - 14.07.2025 poniedziałek
