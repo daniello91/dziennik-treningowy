@@ -96,26 +96,26 @@ if 0 <= day_index < len(plan):
         submitted = st.form_submit_button("Zapisz dane")
 
     if submitted:
-        # Załaduj lub stwórz plik CSV
-        try:
-            df = pd.read_csv("dziennik.csv")
-        except FileNotFoundError:
-            df = pd.DataFrame(columns=["Data", "Wykonano", "Samopoczucie", "Sen", "Notatki"])
+        # Załaduj lub stwórz plik Excel
+try:
+    df = pd.read_excel("dziennik.xlsx")
+except FileNotFoundError:
+    df = pd.DataFrame(columns=["Data", "Wykonano", "Samopoczucie", "Sen", "Notatki"])
 
-        # Aktualizuj lub dodaj wpis dla wybranej daty
-        df = df[df["Data"] != selected_date.strftime("%Y-%m-%d")]
-        new_row = {
-            "Data": selected_date.strftime("%Y-%m-%d"),
-            "Wykonano": wykonane,
-            "Samopoczucie": samopoczucie,
-            "Sen": sen,
-            "Notatki": notatki,
-        }
-        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+# Aktualizuj lub dodaj wpis dla wybranej daty
+df = df[df["Data"] != selected_date.strftime("%Y-%m-%d")]
+new_row = {
+    "Data": selected_date.strftime("%Y-%m-%d"),
+    "Wykonano": wykonane,
+    "Samopoczucie": samopoczucie,
+    "Sen": sen,
+    "Notatki": notatki,
+}
+df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
-        # Zapisz do pliku
-        df.to_csv("dziennik.csv", index=False)
-        st.success("✅ Dane zapisane!")
+# Zapisz do pliku Excel
+df.to_excel("dziennik.xlsx", index=False)
+st.success("✅ Dane zapisane!")
 
     # --- PODGLĄD DANYCH ---
     st.markdown("---")
