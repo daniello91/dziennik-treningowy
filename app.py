@@ -72,31 +72,41 @@ if 0 <= day_index < len(plan):
         wykonane = st.checkbox("✅ Wykonano trening?")
         samopoczucie = st.slider("Jak oceniasz swoje samopoczucie? (1-10)", 1, 10, 5)
         sen = st.slider("Ile godzin spałeś(-aś)?", 0.0, 12.0, 7.0, 0.5)
-
-        # Jeśli poniedziałek – dodatkowe pola pomiarowe
-        pomiary = {}
-        if selected_date.weekday() == 0:  # 0 = poniedziałek
-            st.markdown("### 📏 Pomiary ciała")
-            pomiary_fields = {
-                "Klatka (cm)": "klatka",
-                "Brzuch nad pępkiem (cm)": "brzuch_nad",
-                "Brzuch pod pępkiem (cm)": "brzuch_pod",
-                "Biceps prawy (cm)": "biceps_p",
-                "Biceps lewy (cm)": "biceps_l",
-                "Udo prawe (cm)": "udo_p",
-                "Udo lewe (cm)": "udo_l",
-                "Łydka prawa (cm)": "lydka_p",
-                "Łydka lewa (cm)": "lydka_l",
-            }
-
-            for label, key in pomiary_fields.items():
-                pomiary[key] = st.number_input(label, min_value=0.0, max_value=300.0, step=0.1)
-
         notatki = st.text_area("Notatki / komentarze", height=80)
+
         submitted = st.form_submit_button("Zapisz dane")
 
     if submitted:
-        # Załaduj lub stwórz plik Excel
+        # Załaduj lub stwórz plik CSV
         try:
-            df = pd.read_excel("dziennik.xlsx")
-        except FileNot
+            df = pd.read_csv("dziennik.csv")
+        except FileNotFoundError:
+            df = pd.DataFrame(columns=["Data", "Wykonano", "Samopoczucie", "Sen", "Notatki"])
+
+        # Aktualizuj lub dodaj wpis dla wybranej daty
+        df = df[df["Data"] != selected_date.strftime("%Y-%m-%d")]
+        new_row = {
+            "Data": selected_date.strftime("%Y-%m-%d"),
+            "Wykonano": wykonane,
+            "Samopoczucie": samopoczucie,
+            "Sen": sen,
+            "Notatki": notatki,
+        }
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+
+        # Zapisz do pliku
+        df.to_csv("dziennik.csv", index=False)
+        st.success("✅ Dane zapisane!")
+
+    # --- PODGLĄD DANYCH ---
+    st.markdown("---")
+    st.write("Podgląd zapisanych danych:")
+    try:
+        df = pd.read_csv("dziennik.csv")
+        df_display = df.sort_values("Data", ascending=False).reset_index(drop=True)
+        st.dataframe(df_display)
+    except FileNotFoundError:
+        st.write("Brak zapisanych danych jeszcze.")
+
+else:
+    st.warning("🕒 Dziś nie ma zaplanowanego treningu w ramach planu (poza zakresem 8 tygodni).")
