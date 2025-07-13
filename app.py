@@ -156,8 +156,7 @@ st.download_button(
     label="⬇️ Pobierz dziennik treningowy (CSV)",
     data=csv,
     file_name='dziennik.csv',
-    mime='text/csv',
-)
+    mime='text/csv',)
 
 else:
     st.warning("🕒 Dziś nie ma zaplanowanego treningu w ramach planu (poza zakresem 8 tygodni).")
