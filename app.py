@@ -1,14 +1,8 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
-
-st.set_page_config(page_title="🏃♂️ Dziennik Treningowy", layout="centered")
-
-st.title("🏃♂️ Dziennik Treningowy – 8 tygodni")
+from datetime import datetime
 
 # --- PLAN TRENINGOWY ---
-
 plan = [
     # TYDZIEŃ 1-2
     {"day": "Pon", "desc": "Marszobieg 1 min biegu / 2 min marszu × 8", "time": "24 min", "hr": "≤135 bpm"},
@@ -73,83 +67,61 @@ if 0 <= day_index < len(plan):
         wykonane = st.checkbox("✅ Wykonano trening?")
         samopoczucie = st.slider("Jak oceniasz swoje samopoczucie? (1-10)", 1, 10, 5)
         sen = st.slider("Ile godzin spałeś(-aś)?", 0.0, 12.0, 7.0, 0.5)
-
-        # Jeśli poniedziałek – dodatkowe pola pomiarowe
-        pomiary = {}
-        if selected_date.weekday() == 0:  # 0 = poniedziałek
-            st.markdown("### 📏 Pomiary ciała")
-            pomiary_fields = {
-                "Klatka (cm)": "klatka",
-                "Brzuch nad pępkiem (cm)": "brzuch_nad",
-                "Brzuch pod pępkiem (cm)": "brzuch_pod",
-                "Biceps prawy (cm)": "biceps_p",
-                "Biceps lewy (cm)": "biceps_l",
-                "Udo prawe (cm)": "udo_p",
-                "Udo lewe (cm)": "udo_l",
-                "Łydka prawa (cm)": "lydka_p",
-                "Łydka lewa (cm)": "lydka_l",
-            }
-
-            for label, key in pomiary_fields.items():
-                pomiary[key] = st.number_input(label, min_value=0.0, max_value=300.0, step=0.1)
-
         notatki = st.text_area("Notatki / komentarze", height=80)
+        
+        # Pomiar ciała tylko w poniedziałek
+        klatka = brzuch_nad = brzuch_pod = biceps_p = biceps_l = udo_p = udo_l = lydka_p = lydka_l = None
+        if selected_date.weekday() == 0:  # Poniedziałek
+            klatka = st.number_input("Klatka piersiowa (cm)", min_value=0.0, step=0.1)
+            brzuch_nad = st.number_input("Brzuch nad pępkiem (cm)", min_value=0.0, step=0.1)
+            brzuch_pod = st.number_input("Brzuch pod pępkiem (cm)", min_value=0.0, step=0.1)
+            biceps_p = st.number_input("Biceps prawy (cm)", min_value=0.0, step=0.1)
+            biceps_l = st.number_input("Biceps lewy (cm)", min_value=0.0, step=0.1)
+            udo_p = st.number_input("Udo prawe (cm)", min_value=0.0, step=0.1)
+            udo_l = st.number_input("Udo lewe (cm)", min_value=0.0, step=0.1)
+            lydka_p = st.number_input("Łydka prawa (cm)", min_value=0.0, step=0.1)
+            lydka_l = st.number_input("Łydka lewa (cm)", min_value=0.0, step=0.1)
+
         submitted = st.form_submit_button("Zapisz dane")
 
     if submitted:
+        # Załaduj lub stwórz plik Excel
         try:
-            df = pd.read_csv("dziennik.csv")
+            df = pd.read_excel("dziennik.xlsx")
         except FileNotFoundError:
-            df = pd.DataFrame()
+            df = pd.DataFrame(columns=["Data", "Wykonano", "Samopoczucie", "Sen", "Notatki", "Klatka", "Brzuch_nad", "Brzuch_pod", "Biceps_p", "Biceps_l", "Udo_p", "Udo_l", "Lydka_p", "Lydka_l"])
 
-        # Dane podstawowe
+        # Aktualizuj lub dodaj wpis dla wybranej daty
+        df = df[df["Data"] != selected_date.strftime("%Y-%m-%d")]
         new_row = {
             "Data": selected_date.strftime("%Y-%m-%d"),
             "Wykonano": wykonane,
             "Samopoczucie": samopoczucie,
             "Sen": sen,
             "Notatki": notatki,
+            "Klatka": klatka,
+            "Brzuch_nad": brzuch_nad,
+            "Brzuch_pod": brzuch_pod,
+            "Biceps_p": biceps_p,
+            "Biceps_l": biceps_l,
+            "Udo_p": udo_p,
+            "Udo_l": udo_l,
+            "Lydka_p": lydka_p,
+            "Lydka_l": lydka_l,
         }
-
-        # Jeśli poniedziałek – dodaj pomiary
-        if selected_date.weekday() == 0:
-            new_row.update(pomiary)
-
-        # Usuń istniejący wpis tego dnia, jeśli istnieje
-        df = df[df["Data"] != selected_date.strftime("%Y-%m-%d")]
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
-        df.to_csv("dziennik.csv", index=False)
+        # Zapisz do pliku Excel
+        df.to_excel("dziennik.xlsx", index=False)
         st.success("✅ Dane zapisane!")
 
-# --- PODGLĄD DANYCH ---
-st.markdown("---")
-st.subheader("📋 Podgląd zapisanych danych:")
+    # --- PODGLĄD DANYCH ---
+    st.markdown("---")
+    st.write("Podgląd zapisanych danych:")
+    try:
+        df = pd.read_excel("dziennik.xlsx")
+        df_display = df.sort_values("Data", ascending=False).reset_index(drop=True)
+        st.dataframe(df_display)
 
-try:
-    df = pd.read_csv("dziennik.csv")
-    df_display = df.sort_values("Data", ascending=False).reset_index(drop=True)
-
-    # Formatowanie – zamieniamy puste komórki na "–"
-    df_display.fillna("–", inplace=True)
-
-    # Wyświetl pełną tabelę z możliwością przewijania
-    st.dataframe(df_display, use_container_width=True)
-
-    # Opcjonalnie: filtr tylko poniedziałków z pomiarami
-    if "klatka" in df_display.columns:
-        df_pomiary = df_display[df_display["klatka"] != "–"]
-        if not df_pomiary.empty:
-            st.markdown("### 📏 Historia pomiarów (tylko poniedziałki)")
-            st.dataframe(df_pomiary[[
-                "Data", "klatka", "brzuch_nad", "brzuch_pod",
-                "biceps_p", "biceps_l", "udo_p", "udo_l", "lydka_p", "lydka_l"
-            ]], use_container_width=True)
-
-
-
-except FileNotFoundError:
-    st.write("Brak zapisanych danych jeszcze.")
-
-else:
-    st.warning("🕒 Dziś nie ma zaplanowanego treningu w ramach planu (poza zakresem 8 tygodni).")
+    except FileNotFoundError:
+        st.write("Brak zapisanych danych jeszcze.")
