@@ -68,12 +68,31 @@ if 0 <= day_index < len(plan):
     st.markdown("---")
     st.write("Uzupełnij dane o wykonaniu i samopoczuciu:")
 
-    with st.form("form"):
+ with st.form("form"):
         wykonane = st.checkbox("✅ Wykonano trening?")
         samopoczucie = st.slider("Jak oceniasz swoje samopoczucie? (1-10)", 1, 10, 5)
         sen = st.slider("Ile godzin spałeś(-aś)?", 0.0, 12.0, 7.0, 0.5)
-        notatki = st.text_area("Notatki / komentarze", height=80)
 
+        # Jeśli poniedziałek – dodatkowe pola pomiarowe
+        pomiary = {}
+        if selected_date.weekday() == 0:  # 0 = poniedziałek
+            st.markdown("### 📏 Pomiary ciała")
+            pomiary_fields = {
+                "Klatka (cm)": "klatka",
+                "Brzuch nad pępkiem (cm)": "brzuch_nad",
+                "Brzuch pod pępkiem (cm)": "brzuch_pod",
+                "Biceps prawy (cm)": "biceps_p",
+                "Biceps lewy (cm)": "biceps_l",
+                "Udo prawe (cm)": "udo_p",
+                "Udo lewe (cm)": "udo_l",
+                "Łydka prawa (cm)": "lydka_p",
+                "Łydka lewa (cm)": "lydka_l",
+            }
+
+            for label, key in pomiary_fields.items():
+                pomiary[key] = st.number_input(label, min_value=0.0, max_value=300.0, step=0.1)
+
+        notatki = st.text_area("Notatki / komentarze", height=80)
         submitted = st.form_submit_button("Zapisz dane")
 
     if submitted:
