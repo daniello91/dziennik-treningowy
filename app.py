@@ -4,41 +4,41 @@ from datetime import datetime
 
 # --- PLAN TRENINGOWY ---
 plan = [
-    # TYDZIEŃ 1-2
-    {"day": "Pon", "desc": "Marszobieg 1 min biegu / 2 min marszu × 8", "time": "24 min", "hr": "≤135 bpm"},
-    {"day": "Wto", "desc": "Odpoczynek / spacer", "time": "–", "hr": "–"},
-    {"day": "Śro", "desc": "Marszobieg 1 min biegu / 1,5 min marszu × 10", "time": "25 min", "hr": "≤135 bpm"},
-    {"day": "Czw", "desc": "Odpoczynek lub joga", "time": "–", "hr": "–"},
-    {"day": "Pt", "desc": "Marszobieg 2 min biegu / 2 min marszu × 6", "time": "24 min", "hr": "≤135 bpm"},
-    {"day": "Sob", "desc": "Spacer / rower rekreacyjny", "time": "30–45 min", "hr": "–"},
-    {"day": "Nd", "desc": "Marsz + trucht (5 min marszu / 3 min truchtu × 5)", "time": "40 min", "hr": "≤135 bpm"},
+ # TYDZIEŃ 1-2
+    {"day": "Pon", "desc": "🚶‍♂️ Marszobieg 1 min biegu / 2 min marszu × 8", "time": "24 min", "hr": "≤135 bpm"},
+    {"day": "Wto", "desc": "🚴‍♂️ Odpoczynek / spacer", "time": "–", "hr": "–"},
+    {"day": "Śro", "desc": "🏃‍♀️ Marszobieg 1 min biegu / 1,5 min marszu × 10", "time": "25 min", "hr": "≤135 bpm"},
+    {"day": "Czw", "desc": "🧘‍♂️ Odpoczynek lub joga", "time": "–", "hr": "–"},
+    {"day": "Pt", "desc": "🏃‍♂️ Marszobieg 2 min biegu / 2 min marszu × 6", "time": "24 min", "hr": "≤135 bpm"},
+    {"day": "Sob", "desc": "🚴‍♀️ Spacer / rower rekreacyjny", "time": "30–45 min", "hr": "–"},
+    {"day": "Nd", "desc": "🏃‍♂️ Marsz + trucht (5 min marszu / 3 min truchtu × 5)", "time": "40 min", "hr": "≤135 bpm"},
 
     # TYDZIEŃ 3-4
-    {"day": "Pon", "desc": "Marszobieg 3 min biegu / 1,5 min marszu × 6", "time": "27 min", "hr": "≤135 bpm"},
-    {"day": "Wto", "desc": "Spacer szybki / aktywna regeneracja", "time": "30 min", "hr": "–"},
-    {"day": "Śro", "desc": "Marszobieg 4 min biegu / 1 min marszu × 5", "time": "25 min", "hr": "≤135 bpm"},
-    {"day": "Czw", "desc": "Odpoczynek", "time": "–", "hr": "–"},
-    {"day": "Pt", "desc": "Marszobieg 5 min biegu / 1 min marszu × 4", "time": "24 min", "hr": "≤135 bpm"},
-    {"day": "Sob", "desc": "Lekki spacer / rozciąganie", "time": "30–40 min", "hr": "–"},
-    {"day": "Nd", "desc": "Bieg + marsz: 10 min truchtu + 2 min marszu + 10 min biegu", "time": "22 min", "hr": "≤140 bpm"},
+    {"day": "Pon", "desc": "🚶‍♂️ Marszobieg 3 min biegu / 1,5 min marszu × 6", "time": "27 min", "hr": "≤135 bpm"},
+    {"day": "Wto", "desc": "🚴‍♂️ Spacer szybki / aktywna regeneracja", "time": "30 min", "hr": "–"},
+    {"day": "Śro", "desc": "🏃‍♂️ Marszobieg 4 min biegu / 1 min marszu × 5", "time": "25 min", "hr": "≤135 bpm"},
+    {"day": "Czw", "desc": "🧘‍♂️ Odpoczynek", "time": "–", "hr": "–"},
+    {"day": "Pt", "desc": "🏃‍♀️ Marszobieg 5 min biegu / 1 min marszu × 4", "time": "24 min", "hr": "≤135 bpm"},
+    {"day": "Sob", "desc": "🚴‍♀️ Lekki spacer / rozciąganie", "time": "30–40 min", "hr": "–"},
+    {"day": "Nd", "desc": "🏃‍♂️ Bieg + marsz: 10 min truchtu + 2 min marszu + 10 min biegu", "time": "22 min", "hr": "≤140 bpm"},
 
     # TYDZIEŃ 5-6
-    {"day": "Pon", "desc": "Bieg ciągły 15 min + 5 min marszu + 10 min biegu", "time": "30 min", "hr": "≤140 bpm"},
-    {"day": "Wto", "desc": "Spacer szybki / rower", "time": "30–40 min", "hr": "–"},
-    {"day": "Śro", "desc": "Marszobieg 6 min biegu / 1 min marszu × 4", "time": "28 min", "hr": "≤135 bpm"},
-    {"day": "Czw", "desc": "Odpoczynek", "time": "–", "hr": "–"},
-    {"day": "Pt", "desc": "Bieg ciągły 20–25 min bardzo wolno", "time": "–", "hr": "≤140 bpm"},
-    {"day": "Sob", "desc": "Rozciąganie, mobilizacja", "time": "–", "hr": "–"},
-    {"day": "Nd", "desc": "Długi marsz lub 30 min marsz + 15 min trucht", "time": "45–50 min", "hr": "≤135 bpm"},
-
+    {"day": "Pon", "desc": "🏃‍♀️ Bieg ciągły 15 min + 5 min marszu + 10 min biegu", "time": "30 min", "hr": "≤140 bpm"},
+    {"day": "Wto", "desc": "🚴‍♂️ Spacer szybki / rower", "time": "30–40 min", "hr": "–"},
+    {"day": "Śro", "desc": "🏃‍♀️ Marszobieg 6 min biegu / 1 min marszu × 4", "time": "28 min", "hr": "≤135 bpm"},
+    {"day": "Czw", "desc": "🧘‍♂️ Odpoczynek", "time": "–", "hr": "–"},
+    {"day": "Pt", "desc": "🏃‍♂️ Bieg ciągły 20–25 min bardzo wolno", "time": "–", "hr": "≤140 bpm"},
+    {"day": "Sob", "desc": "🧘‍♂️ Rozciąganie, mobilizacja", "time": "–", "hr": "–"},
+    {"day": "Nd", "desc": "🚶‍♂️ Długi marsz lub 30 min marsz + 15 min trucht", "time": "45–50 min", "hr": "≤135 bpm"},
+    
     # TYDZIEŃ 7-8
-    {"day": "Pon", "desc": "Bieg ciągły 30 min wolno", "time": "–", "hr": "≤140 bpm"},
-    {"day": "Wto", "desc": "Spacer / rower / regeneracja", "time": "40 min", "hr": "–"},
-    {"day": "Śro", "desc": "Marszobieg 8 min biegu / 1 min marszu × 3", "time": "27 min", "hr": "≤135 bpm"},
-    {"day": "Czw", "desc": "Wolne", "time": "–", "hr": "–"},
-    {"day": "Pt", "desc": "Bieg ciągły 25 min + 5 przebieżek (60 m)", "time": "~30 min", "hr": "Przebieżki: bez przekraczania 150 bpm"},
-    {"day": "Sob", "desc": "Spacer, joga", "time": "45 min", "hr": "–"},
-    {"day": "Nd", "desc": "Długi spokojny bieg lub trucht z marszem", "time": "45–60 min", "hr": "≤135 bpm"},
+    {"day": "Pon", "desc": "🏃‍♀️ Bieg ciągły 30 min wolno", "time": "–", "hr": "≤140 bpm"},
+    {"day": "Wto", "desc": "🚴‍♂️ Spacer / rower / regeneracja", "time": "40 min", "hr": "–"},
+    {"day": "Śro", "desc": "🏃‍♂️ Marszobieg 8 min biegu / 1 min marszu × 3", "time": "27 min", "hr": "≤135 bpm"},
+    {"day": "Czw", "desc": "🧘‍♂️ Wolne", "time": "–", "hr": "–"},
+    {"day": "Pt", "desc": "🏃‍♀️ Bieg ciągły 25 min + 5 przebieżek (60 m)", "time": "~30 min", "hr": "Przebieżki: bez przekraczania 150 bpm"},
+    {"day": "Sob", "desc": "🧘‍♂️ Spacer, joga", "time": "45 min", "hr": "–"},
+    {"day": "Nd", "desc": "🏃‍♂️ Długi spokojny bieg lub trucht z marszem", "time": "45–60 min", "hr": "≤135 bpm"},,
 ]
 
 # Start planu - 14.07.2025 poniedziałek
