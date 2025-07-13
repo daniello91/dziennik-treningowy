@@ -1,6 +1,7 @@
+import io
 import streamlit as st
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime
 
 st.set_page_config(page_title="🏃♂️ Dziennik Treningowy", layout="centered")
 
@@ -116,6 +117,21 @@ if 0 <= day_index < len(plan):
         # Zapisz do pliku Excel
         df.to_excel("dziennik.xlsx", index=False)
         st.success("✅ Dane zapisane!")
+
+        # Generowanie pliku do pobrania
+        import io
+        towrite = io.BytesIO()
+        with pd.ExcelWriter(towrite, engine="openpyxl") as writer:
+            df.to_excel(writer, index=False)
+        towrite.seek(0)
+
+        # Przycisk do pobrania
+        st.download_button(
+            label="Pobierz plik Excel",
+            data=towrite,
+            file_name="dziennik_treningowy.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
     # --- PODGLĄD DANYCH ---
     st.markdown("---")
