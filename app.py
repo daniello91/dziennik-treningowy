@@ -121,16 +121,33 @@ if 0 <= day_index < len(plan):
         df.to_csv("dziennik.csv", index=False)
         st.success("✅ Dane zapisane!")
 
+# --- PODGLĄD DANYCH ---
+st.markdown("---")
+st.subheader("📋 Podgląd zapisanych danych:")
 
-    # --- PODGLĄD DANYCH ---
-    st.markdown("---")
-    st.write("Podgląd zapisanych danych:")
-    try:
-        df = pd.read_csv("dziennik.csv")
-        df_display = df.sort_values("Data", ascending=False).reset_index(drop=True)
-        st.dataframe(df_display)
-    except FileNotFoundError:
-        st.write("Brak zapisanych danych jeszcze.")
+try:
+    df = pd.read_csv("dziennik.csv")
+    df_display = df.sort_values("Data", ascending=False).reset_index(drop=True)
+
+    # Formatowanie – zamieniamy puste komórki na "–"
+    df_display.fillna("–", inplace=True)
+
+    # Wyświetl pełną tabelę z możliwością przewijania
+    st.dataframe(df_display, use_container_width=True)
+
+    # Opcjonalnie: filtr tylko poniedziałków z pomiarami
+    if "klatka" in df_display.columns:
+        df_pomiary = df_display[df_display["klatka"] != "–"]
+        if not df_pomiary.empty:
+            st.markdown("### 📏 Historia pomiarów (tylko poniedziałki)")
+            st.dataframe(df_pomiary[[
+                "Data", "klatka", "brzuch_nad", "brzuch_pod",
+                "biceps_p", "biceps_l", "udo_p", "udo_l", "lydka_p", "lydka_l"
+            ]], use_container_width=True)
+
+except FileNotFoundError:
+    st.write("Brak zapisanych danych jeszcze.")
+
 
 else:
     st.warning("🕒 Dziś nie ma zaplanowanego treningu w ramach planu (poza zakresem 8 tygodni).")
