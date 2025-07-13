@@ -96,36 +96,7 @@ if 0 <= day_index < len(plan):
         submitted = st.form_submit_button("Zapisz dane")
 
     if submitted:
-        # Załaduj lub stwórz plik CSV
+        # Załaduj lub stwórz plik Excel
         try:
-            df = pd.read_csv("dziennik.csv")
-        except FileNotFoundError:
-            df = pd.DataFrame(columns=["Data", "Wykonano", "Samopoczucie", "Sen", "Notatki"])
-
-        # Aktualizuj lub dodaj wpis dla wybranej daty
-        df = df[df["Data"] != selected_date.strftime("%Y-%m-%d")]
-        new_row = {
-            "Data": selected_date.strftime("%Y-%m-%d"),
-            "Wykonano": wykonane,
-            "Samopoczucie": samopoczucie,
-            "Sen": sen,
-            "Notatki": notatki,
-        }
-        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-
-        # Zapisz do pliku
-        df.to_csv("dziennik.csv", index=False)
-        st.success("✅ Dane zapisane!")
-
-    # --- PODGLĄD DANYCH ---
-    st.markdown("---")
-    st.write("Podgląd zapisanych danych:")
-    try:
-        df = pd.read_csv("dziennik.csv")
-        df_display = df.sort_values("Data", ascending=False).reset_index(drop=True)
-        st.dataframe(df_display)
-    except FileNotFoundError:
-        st.write("Brak zapisanych danych jeszcze.")
-
-else:
-    st.warning("🕒 Dziś nie ma zaplanowanego treningu w ramach planu (poza zakresem 8 tygodni).")
+            df = pd.read_excel("dziennik.xlsx")
+        except FileNot
