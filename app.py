@@ -159,7 +159,5 @@ st.download_button(
     mime='text/csv',
 )
 
-
-
 else:
     st.warning("🕒 Dziś nie ma zaplanowanego treningu w ramach planu (poza zakresem 8 tygodni).")
