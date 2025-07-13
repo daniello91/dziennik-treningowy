@@ -148,6 +148,18 @@ try:
 except FileNotFoundError:
     st.write("Brak zapisanych danych jeszcze.")
 
+# --- POBIERZ CSV ---
+st.markdown("### 📥 Pobierz dane")
+
+csv = df_display.to_csv(index=False).encode('utf-8')
+st.download_button(
+    label="⬇️ Pobierz dziennik treningowy (CSV)",
+    data=csv,
+    file_name='dziennik.csv',
+    mime='text/csv',
+)
+
+
 
 else:
     st.warning("🕒 Dziś nie ma zaplanowanego treningu w ramach planu (poza zakresem 8 tygodni).")
